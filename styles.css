@@ -1,0 +1,306 @@
+/* === FONTS === */
+@font-face {
+  font-family: 'EuropeanTeletext';
+  src: url('Fonts/european_teletext/EuropeanTeletext.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'CeefaxTeletext';
+  src: url('Fonts/ceefax-teletext-1.otf/ceefax-teletext-1.otf') format('opentype');
+}
+
+/* === RESET === */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* === BASE === */
+body {
+  background: #0F0F0F;
+  color: #CDCDCD;
+  font-family: 'EuropeanTeletext', monospace;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* === SCREEN: width locked to Line 1 via JS === */
+.screen {
+  width: fit-content;
+  padding: 8px;
+  overflow: hidden;
+}
+
+/* === SPA === */
+.page { display: none; }
+.page.active {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 16px);
+}
+
+/* === ROW LAYOUTS === */
+.row {
+  display: flex;
+  align-items: center;
+  min-height: calc(1em + 2px);
+}
+.row-sb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(1em + 2px);
+}
+.row-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: calc(1em + 2px);
+}
+.row-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(1em + 2px);
+}
+
+/* === COLORED BOX (inline label, fit-to-content) === */
+.bx {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 4px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* === FULL-WIDTH LABEL (spans entire row) === */
+.label {
+  display: flex;
+  align-items: center;
+  padding: 1px 4px;
+  width: 100%;
+  line-height: 1;
+  min-height: calc(1em + 2px);
+}
+
+/* === COLORS: Text === */
+.azul     { color: #0200D2; }
+.amarillo { color: #F1EA00; }
+.rojo     { color: #C9000A; }
+.gris     { color: #CDCDCD; }
+.verde    { color: #23D947; }
+.turquesa { color: #10E7EC; }
+.negro    { color: #0F0F0F; }
+.fucsia   { color: #F717B3; }
+
+/* === COLORS: Background === */
+.bg-azul     { background: #0200D2; }
+.bg-amarillo { background: #F1EA00; }
+.bg-rojo     { background: #C9000A; }
+.bg-gris     { background: #CDCDCD; }
+.bg-verde    { background: #23D947; }
+.bg-turquesa { background: #10E7EC; }
+.bg-fucsia   { background: #F717B3; }
+
+/* === LOGO — now FUCSIA === */
+.logo {
+  background: #F717B3;
+  width: 100%;
+  position: relative;
+  height: calc((1em + 2px) * 4);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.logo-text {
+  font-family: 'CeefaxTeletext', monospace;
+  color: #0F0F0F;
+  font-size: 2.5em;
+  line-height: 1.05;
+  padding: 0 4px;
+  transform: scaleX(1.35);
+  transform-origin: left center;
+}
+
+.logo-overlay {
+  position: absolute;
+  right: 4px;
+  display: flex;
+  align-items: center;
+}
+
+/* === Todo junto — zero spacing (except footer) === */
+.page.active > *:not(.footer):not(.footer-back) { margin: 0; padding-top: 0; padding-bottom: 0; }
+.page.active > a.link { margin: 0; }
+
+/* === TEXT INDENT (not flush left) === */
+.txt { padding-left: 6px; }
+
+/* === DOTS (fill space between text and page number) === */
+.dots {
+  flex: 1 1 0px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* === LINKS === */
+a { text-decoration: none; color: inherit; }
+.link { display: block; cursor: pointer; }
+.link:hover { opacity: 0.85; }
+
+/* === FOOTER — anchored to bottom === */
+.footer {
+  text-align: center;
+  margin-top: auto;
+  padding: 12px 0 8px;
+}
+
+/* === BACK — anchored to bottom like footer === */
+.footer-back {
+  margin-top: auto;
+  padding: 12px 0 8px;
+}
+
+/* === BANNER (L20): two blocks fill exact line 1 width === */
+.banner {
+  display: flex;
+  max-width: 100%;
+  overflow: hidden;
+}
+.banner-left {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 4px;
+  white-space: nowrap;
+  line-height: 1;
+}
+.banner-right {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 4px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* === TICKER / CINTILLO (L21) === */
+.ticker-wrap {
+  overflow: hidden;
+  width: 100%;
+  min-height: calc(1em + 2px);
+}
+
+.ticker {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ticker-scroll 15s steps(30) infinite;
+}
+
+.ticker .bx {
+  flex-shrink: 0;
+}
+
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* === TELETEXT FORM === */
+.tt-form {
+  width: 100%;
+}
+
+/* Bordered input container */
+.tt-box {
+  border: 2px solid #CDCDCD;
+  padding: 4px 6px;
+  width: 100%;
+  min-height: calc(1em + 12px);
+}
+
+.tt-box.b-verde    { border-color: #23D947; }
+.tt-box.b-amarillo { border-color: #F1EA00; }
+.tt-box.b-turquesa { border-color: #10E7EC; }
+
+/* Filled input container (colored bg) */
+.tt-box-fill {
+  padding: 4px 6px;
+  width: 100%;
+}
+
+/* Text input inside box */
+.tt-input {
+  background: none;
+  border: none;
+  font-family: 'EuropeanTeletext', monospace;
+  font-size: 1em;
+  line-height: 1.3;
+  padding: 0;
+  width: 100%;
+  outline: none;
+  -webkit-font-smoothing: none;
+}
+
+/* Textarea inside box */
+.tt-textarea {
+  background: none;
+  border: none;
+  font-family: 'EuropeanTeletext', monospace;
+  font-size: 1em;
+  line-height: 1.3;
+  padding: 0;
+  width: 100%;
+  outline: none;
+  resize: none;
+  -webkit-font-smoothing: none;
+}
+
+.tt-input::placeholder,
+.tt-textarea::placeholder {
+  opacity: 0.5;
+}
+
+/* Radio option as text line */
+.tt-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 6px;
+  min-height: calc(1em + 2px);
+}
+
+.tt-option input[type="radio"] {
+  display: none;
+}
+
+.tt-option input[type="radio"]:checked + span {
+  color: #F1EA00;
+}
+
+/* Submit button */
+.tt-btn {
+  background: none;
+  font-family: 'EuropeanTeletext', monospace;
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-font-smoothing: none;
+}
+
+.tt-btn:hover {
+  opacity: 0.85;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 380px) {
+  body { font-size: 20px; }
+}
+@media (max-width: 340px) {
+  body { font-size: 18px; }
+}

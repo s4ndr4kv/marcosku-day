@@ -28,6 +28,8 @@ body {
 /* === SCREEN: fills viewport, font scales via JS === */
 .screen {
   width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
   padding: 8px;
   overflow: hidden;
 }
@@ -155,8 +157,10 @@ a { text-decoration: none; color: inherit; }
 .footer, .footer-back {
   position: fixed;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 480px;
   background: #0F0F0F;
   padding: 10px 8px;
   z-index: 10;

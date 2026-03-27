@@ -15,10 +15,10 @@ function scaleToViewport() {
   const contentW = line1.getBoundingClientRect().width;
   line1.style.width = '';
 
-  // Available width = viewport minus screen padding
+  // Available width = viewport (capped at 480px) minus screen padding
   const cs = getComputedStyle(screen);
   const pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-  const availW = window.innerWidth - pad;
+  const availW = Math.min(window.innerWidth, 480) - pad;
 
   // Scale font so line 1 fills the viewport exactly
   const newSize = refSize * (availW / contentW);
@@ -90,6 +90,7 @@ if (form) {
     const msg = form.querySelector('.tt-msg');
     const origText = btn.textContent;
     btn.textContent = 'ENVIANDO...';
+    btn.style.color = '#F1EA00'; // amarillo on tap
     btn.disabled = true;
 
     const fd = new FormData(form);
@@ -108,12 +109,8 @@ if (form) {
         body: JSON.stringify(data)
       });
 
-      btn.textContent = 'ENVIADO ✓';
-      btn.style.color = '#23D947';
-      if (msg) {
-        msg.style.display = 'flex';
-        msg.innerHTML = '<span class="verde">Recibido ^-^</span>';
-      }
+      btn.textContent = '>> ENVIADO \u2713 <<';
+      btn.style.color = '#23D947'; // verde
     } catch (err) {
       btn.textContent = 'ERROR ✗';
       btn.style.color = '#C9000A';

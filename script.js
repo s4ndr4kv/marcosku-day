@@ -89,7 +89,7 @@ if (form) {
     const btn = form.querySelector('.tt-btn');
     const msg = form.querySelector('.tt-msg');
     const origText = btn.textContent;
-    btn.textContent = 'ENVIANDO...';
+    btn.textContent = '>> ENVIANDO...';
     btn.style.color = '#F1EA00'; // amarillo on tap
     btn.disabled = true;
 
@@ -109,7 +109,7 @@ if (form) {
         body: JSON.stringify(data)
       });
 
-      btn.textContent = '>> ENVIADO \u2713 <<';
+      btn.textContent = '>> ENVIADO \u2713';
       btn.style.color = '#23D947'; // verde
     } catch (err) {
       btn.textContent = 'ERROR ✗';

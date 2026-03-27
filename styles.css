@@ -12,44 +12,35 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* === BASE === */
-html {
-  overflow: hidden;
-  height: 100%;
-}
-
 body {
   background: #0F0F0F;
   color: #CDCDCD;
   font-family: 'EuropeanTeletext', monospace;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
   font-size: 22px;
   line-height: 1;
-  overflow: hidden;
 }
 
-/* === SCREEN: fills viewport, font scales via JS === */
+/* === SCREEN === */
 .screen {
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
   padding: 8px;
-  overflow: hidden;
-  height: 100%;
+  overflow-x: clip;
 }
 
 /* === SPA === */
 .page { display: none; }
-.page.active {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 16px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+.page.active { display: block; }
+/* Home needs min-height for fixed footer */
+#home.active {
+  min-height: calc(100vh - 16px);
 }
 
 /* === ROW LAYOUTS === */
@@ -143,7 +134,7 @@ body {
   align-items: center;
 }
 
-/* === Todo junto — zero spacing (except footer) === */
+/* === Todo junto — zero spacing === */
 .page.active > *:not(.footer):not(.footer-back) { margin: 0; padding-top: 0; padding-bottom: 0; }
 .page.active > a.link { margin: 0; }
 
@@ -163,8 +154,8 @@ a { text-decoration: none; color: inherit; }
 .link { display: block; cursor: pointer; }
 .link:hover { opacity: 0.85; }
 
-/* === FOOTER & BACK — fixed to viewport bottom === */
-.footer, .footer-back {
+/* === HOME FOOTER — always anchored to viewport bottom === */
+.footer {
   position: fixed;
   bottom: 0;
   left: 50%;
@@ -172,17 +163,14 @@ a { text-decoration: none; color: inherit; }
   width: 100%;
   max-width: 480px;
   background: #0F0F0F;
+  text-align: center;
   padding: 10px 8px;
   z-index: 10;
 }
 
-.footer {
-  text-align: center;
-}
-
-/* Space at bottom of page so content isn't hidden behind fixed footer */
-.page-bottom-spacer {
-  height: 50px;
+/* === BACK — always in flow, 2 lines after content === */
+.footer-back {
+  padding: calc((1em + 2px) * 2) 0 12px;
   flex-shrink: 0;
 }
 

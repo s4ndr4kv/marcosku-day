@@ -139,7 +139,7 @@ body {
 .page.active > a.link { margin: 0; }
 
 /* === TEXT INDENT (not flush left) === */
-.txt { padding-left: 6px; }
+.txt { padding-left: 6px; white-space: nowrap; }
 
 /* === DOTS (fill space between text and page number) === */
 .dots {
@@ -336,8 +336,8 @@ body::before {
   height: 100%;
   background: radial-gradient(
     ellipse at center,
-    transparent 50%,
-    rgba(0, 0, 0, 0.55) 100%
+    transparent 60%,
+    rgba(0, 0, 0, 0.35) 100%
   );
   pointer-events: none;
   z-index: 999998;

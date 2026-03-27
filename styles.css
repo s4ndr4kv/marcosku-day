@@ -12,17 +12,23 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* === BASE === */
+html {
+  overflow: hidden;
+  height: 100%;
+}
+
 body {
   background: #0F0F0F;
   color: #CDCDCD;
   font-family: 'EuropeanTeletext', monospace;
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
   font-size: 22px;
   line-height: 1;
+  overflow: hidden;
 }
 
 /* === SCREEN: fills viewport, font scales via JS === */
@@ -32,6 +38,7 @@ body {
   margin: 0 auto;
   padding: 8px;
   overflow: hidden;
+  height: 100%;
 }
 
 /* === SPA === */
@@ -39,7 +46,10 @@ body {
 .page.active {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 16px);
+  height: calc(100vh - 16px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* === ROW LAYOUTS === */

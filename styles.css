@@ -25,9 +25,9 @@ body {
   line-height: 1;
 }
 
-/* === SCREEN: width locked to Line 1 via JS === */
+/* === SCREEN: fills viewport, font scales via JS === */
 .screen {
-  width: fit-content;
+  width: 100%;
   padding: 8px;
   overflow: hidden;
 }
@@ -151,17 +151,25 @@ a { text-decoration: none; color: inherit; }
 .link { display: block; cursor: pointer; }
 .link:hover { opacity: 0.85; }
 
-/* === FOOTER — anchored to bottom === */
-.footer {
-  text-align: center;
-  margin-top: auto;
-  padding: 12px 0 8px;
+/* === FOOTER & BACK — fixed to viewport bottom === */
+.footer, .footer-back {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #0F0F0F;
+  padding: 10px 8px;
+  z-index: 10;
 }
 
-/* === BACK — anchored to bottom like footer === */
-.footer-back {
-  margin-top: auto;
-  padding: 12px 0 8px;
+.footer {
+  text-align: center;
+}
+
+/* Space at bottom of page so content isn't hidden behind fixed footer */
+.page-bottom-spacer {
+  height: 50px;
+  flex-shrink: 0;
 }
 
 /* === BANNER (L20): two blocks fill exact line 1 width === */

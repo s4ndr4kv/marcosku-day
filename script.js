@@ -1,19 +1,28 @@
-// === LOCK SCREEN WIDTH TO LINE 1 ===
-function lockScreenWidth() {
+// === SCALE FONT TO FILL VIEWPORT WIDTH ===
+function scaleToViewport() {
   const screen = document.querySelector('.screen');
   const activePage = screen.querySelector('.page.active');
   if (!activePage) return;
   const line1 = activePage.querySelector('.row');
+  if (!line1) return;
 
-  // Shrink line 1 to its natural content width
+  // Reference font size for measuring
+  const refSize = 22;
+  document.body.style.fontSize = refSize + 'px';
+
+  // Measure line 1 natural content width
   line1.style.width = 'fit-content';
   const contentW = line1.getBoundingClientRect().width;
   line1.style.width = '';
 
-  // Screen width = line 1 content + screen padding
+  // Available width = viewport minus screen padding
   const cs = getComputedStyle(screen);
   const pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-  screen.style.width = (contentW + pad) + 'px';
+  const availW = window.innerWidth - pad;
+
+  // Scale font so line 1 fills the viewport exactly
+  const newSize = refSize * (availW / contentW);
+  document.body.style.fontSize = newSize + 'px';
 }
 
 // === CLOCK ===
@@ -48,7 +57,7 @@ function navigateTo(hash) {
   }
 
   window.scrollTo(0, 0);
-  lockScreenWidth();
+  scaleToViewport();
 }
 
 window.addEventListener('hashchange', () => {
@@ -69,9 +78,61 @@ document.querySelectorAll('input[name="plus1"]').forEach(radio => {
   });
 });
 
-// Lock width after fonts load
+// === FORM SUBMIT → Google Sheets ===
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz-TXxtLFzW0cHayfhovsgjCv3EKLIHquJ61c-GLMqVZijVD34UVDppkWKs-0BDWW1L/exec';
+
+const form = document.getElementById('tuinfo-form');
+if (form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const btn = form.querySelector('.tt-btn');
+    const msg = form.querySelector('.tt-msg');
+    const origText = btn.textContent;
+    btn.textContent = 'ENVIANDO...';
+    btn.disabled = true;
+
+    const fd = new FormData(form);
+    const data = {
+      nombre: fd.get('nombre') || '',
+      alergias: fd.get('alergias') || '',
+      plan: fd.get('plan') || '',
+      comentarios: fd.get('comentarios') || ''
+    };
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      btn.textContent = 'ENVIADO ✓';
+      btn.style.color = '#23D947';
+      if (msg) {
+        msg.style.display = 'flex';
+        msg.innerHTML = '<span class="verde">Recibido ^-^</span>';
+      }
+    } catch (err) {
+      btn.textContent = 'ERROR ✗';
+      btn.style.color = '#C9000A';
+      if (msg) {
+        msg.style.display = 'flex';
+        msg.innerHTML = '<span class="rojo">Error al enviar, inténtalo de nuevo</span>';
+      }
+      setTimeout(() => {
+        btn.textContent = origText;
+        btn.style.color = '';
+        btn.disabled = false;
+      }, 3000);
+    }
+  });
+}
+
+// Scale after fonts load
 document.fonts.ready.then(() => {
-  lockScreenWidth();
+  scaleToViewport();
 });
-lockScreenWidth();
-window.addEventListener('resize', lockScreenWidth);
+scaleToViewport();
+window.addEventListener('resize', scaleToViewport);
